@@ -9,3 +9,6 @@ packer_cache/
 
 authorized_keys
 *id_rsa*
+
+# ansible files
+*.retry
