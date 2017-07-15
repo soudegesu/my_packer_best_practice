@@ -14,7 +14,8 @@ RUN useradd ec2-user
 RUN passwd -f -u ec2-user
 
 # setup sudoers
-RUN echo "ec2-user ALL=(ALL) ALL" >> /etc/sudoers.d/ec2-user
+RUN echo "ec2-user ALL = NOPASSWD: ALL" >> /etc/sudoers.d/cloud-init
+RUN echo "ec2-user ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers.d/cloud-init
 
 # setup SSH
 RUN mkdir -p /home/ec2-user/.ssh; chown ec2-user /home/ec2-user/.ssh; chmod 700 /home/ec2-user/.ssh
