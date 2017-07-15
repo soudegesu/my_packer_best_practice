@@ -7,6 +7,8 @@ This repo is example for Packer execution to amazonlinux container.
 * this repo needs
     * docker (17.06 or more)
     * docker-compose (1.14 or more)
+    * packer (1.0.2 or more)
+    * ansible (2.3.1.0 or more)
 
 ## Execution
 
@@ -30,4 +32,10 @@ docker-compose up --build
 ```
 ssh ec2-user@127.0.0.1 -i ./id_rsa
 > [ec2-user@xxxxxxxxx ~]
+```
+
+* execute packer
+
+```
+make pk
 ```
