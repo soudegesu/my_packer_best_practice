@@ -3,3 +3,12 @@ packer_cache/
 
 # For built boxes
 *.box
+
+# key_info
+*keypair*
+
+authorized_keys
+*id_rsa*
+
+# ansible files
+*.retry
