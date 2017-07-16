@@ -17,5 +17,5 @@ packer-vagrant:
 	@${CD} && \
 		vagrant sandbox on && \
 		PACKER_LOG=1 && \
-		packer build -var-file=variables-vagrant.json example-vagrant.json && \
+		packer build -var-file=vagrant-variables.json vagrant-example.json && \
 		vagrant sandbox rollback
