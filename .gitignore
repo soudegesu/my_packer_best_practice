@@ -3,6 +3,7 @@ packer_cache/
 
 # For built boxes
 *.box
+.vagrant
 
 # key_info
 *keypair*
