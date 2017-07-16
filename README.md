@@ -50,20 +50,14 @@ make pk
 
 ### 2. Use Vagrant Case
 
-* startup vagrant
+* initialize vagrant
 
 ```
-vagrant up
+make vagrant-init
 ```
 
-* set vagrant sandbox
+* execute privisioning with packer
 
 ```
-vagrant sandbox on
-```
-
-* rollback to initial state
-
-```
-vagrant sandbox rollback
+make packer-vagrant
 ```

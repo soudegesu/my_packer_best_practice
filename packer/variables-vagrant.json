@@ -1,0 +1,6 @@
+{
+    "ssh_host": "127.0.0.1",
+    "ssh_user": "ec2-user",
+    "ssh_key": "../.vagrant/machines/default/virtualbox/private_key",
+    "ssh_port": "2222"
+}
