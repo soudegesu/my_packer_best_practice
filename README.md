@@ -45,7 +45,7 @@ ssh ec2-user@127.0.0.1 -i ./id_rsa
 * execute packer
 
 ```
-make pk
+make packer-docker
 ```
 
 ### 2. Use Vagrant Case
