@@ -5,10 +5,15 @@ This repo is example for Packer execution to amazonlinux container.
 
 ## Preconditions
 * this repo needs
-    * docker (17.06 or more)
-    * docker-compose (1.14 or more)
     * packer (1.0.2 or more)
     * ansible (2.3.1.0 or more)
+* optional install
+    * you use container
+        * docker (17.06 or more)
+        * docker-compose (1.14 or more)
+    * you use VM box
+        * virtualbox (5.1.22 or more)
+        * vagrant (1.9.7 or more)
 
 ## Execution
 
