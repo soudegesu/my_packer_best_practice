@@ -1,12 +1,21 @@
 CD = cd packer
 
-pk:
+packer-docker:
 	@${CD} && \
 		PACKER_LOG=1 && \
-		packer build -var-file=variables.json example.json 
+		packer build -var-file=docker-variables.json docker-example.json 
 
 validate:
 	@${CD} && \
 		PACKER_LOG=1 && \
-		packer validate -var-file=variables.json example.json 
-	
+		packer validate -var-file=docker-variables.json docker-example.json 
+
+vagrant-init:
+	vagrant halt && vagrant destroy -f && vagrant up --provision
+
+packer-vagrant:
+	@${CD} && \
+		vagrant sandbox on && \
+		PACKER_LOG=1 && \
+		packer build -var-file=vagrant-variables.json vagrant-example.json && \
+		vagrant sandbox rollback

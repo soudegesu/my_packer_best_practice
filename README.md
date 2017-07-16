@@ -5,13 +5,21 @@ This repo is example for Packer execution to amazonlinux container.
 
 ## Preconditions
 * this repo needs
-    * docker (17.06 or more)
-    * docker-compose (1.14 or more)
     * packer (1.0.2 or more)
     * ansible (2.3.1.0 or more)
+* optional install
+    * you use container
+        * docker (17.06 or more)
+        * docker-compose (1.14 or more)
+    * you use VM box
+        * virtualbox (5.1.22 or more)
+        * vagrant (1.9.7 or more)
+        * sahara (0.0.17 or more)
+            * install command `vagrant plugin install sahara`
 
 ## Execution
 
+### 1. Use Docker case
 * generate ssh key.
 
 ```
@@ -37,5 +45,19 @@ ssh ec2-user@127.0.0.1 -i ./id_rsa
 * execute packer
 
 ```
-make pk
+make packer-docker
+```
+
+### 2. Use Vagrant Case
+
+* initialize vagrant
+
+```
+make vagrant-init
+```
+
+* execute privisioning with packer
+
+```
+make packer-vagrant
 ```
