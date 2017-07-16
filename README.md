@@ -14,9 +14,12 @@ This repo is example for Packer execution to amazonlinux container.
     * you use VM box
         * virtualbox (5.1.22 or more)
         * vagrant (1.9.7 or more)
+        * sahara (0.0.17 or more)
+            * install command `vagrant plugin install sahara`
 
 ## Execution
 
+### 1. Use Docker case
 * generate ssh key.
 
 ```
@@ -43,4 +46,24 @@ ssh ec2-user@127.0.0.1 -i ./id_rsa
 
 ```
 make pk
+```
+
+### 2. Use Vagrant Case
+
+* startup vagrant
+
+```
+vagrant up
+```
+
+* set vagrant sandbox
+
+```
+vagrant sandbox on
+```
+
+* rollback to initial state
+
+```
+vagrant sandbox rollback
 ```
