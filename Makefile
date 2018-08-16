@@ -1,21 +1,14 @@
-CD = cd packer
+PACKER = cd packer
+ROLE = $1
 
-packer-docker:
-	@${CD} && \
-		PACKER_LOG=1 && \
-		packer build -var-file=docker-variables.json docker-example.json 
+init-vagrant:
+	vagrant halt && vagrant destroy -f && vagrant up --provision && \
+		vagrant snapshot save initial-save
 
-validate:
-	@${CD} && \
-		PACKER_LOG=1 && \
-		packer validate -var-file=docker-variables.json docker-example.json 
-
-vagrant-init:
-	vagrant halt && vagrant destroy -f && vagrant up --provision
-
-packer-vagrant:
-	@${CD} && \
-		vagrant sandbox on && \
-		PACKER_LOG=1 && \
-		packer build -var-file=vagrant-variables.json vagrant-example.json && \
-		vagrant sandbox rollback
+test-local:
+	@${PACKER} && \
+		vagrant snapshot restore initial-save && \
+		packer build -var-file=env-local-variables.json \
+		-var 'ssh_key=$(CURDIR)/.vagrant/machines/default/virtualbox/private_key' \
+		-var 'provision_target=${ROLE}' \
+		ami-local-template.json

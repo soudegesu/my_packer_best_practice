@@ -6,6 +6,7 @@ My best practice of project structure to provison AWS EC2 AMI with [Packer](http
 
 This repository requires following runtime environment and modules.
 * Mac OSX
+* [Python](https://www.python.org/) (3.6.1 or more)
 * [Packer](https://www.packer.io/) (1.1.3 or more)
 * [Ansible](https://www.ansible.com/) (2.3.1.0 or more)
 * [Ruby](https://www.ruby-lang.org/ja/) (2.4 or more)
@@ -14,47 +15,24 @@ This repository requires following runtime environment and modules.
 * [Virtualbox](http://www.oracle.com/technetwork/jp/server-storage/virtualbox/overview/index.html) (5.2.12 or more)
 * [Vagrant](https://www.vagrantup.com/) (2.1.1 or more)
 
-## Execution
+## Setting up
 
-### 1. Use Docker case
-* generate ssh key.
+* Install ansible
 
-```
-ssh-keygen -t rsa -b 4096
-```
-
-and then, we named key `./id_rsa` .
-After that, `mv ./id_rsa.pub authorized_keys` .
-
-* execute docker-compose
-
-```
-docker-compose up --build
+```bash
+pip install -r requirements.txt -c constraints.txt
 ```
 
-* try to enable ssh with ec2-user
+## Test ansible scripts locally
 
-```
-ssh ec2-user@127.0.0.1 -i ./id_rsa
-> [ec2-user@xxxxxxxxx ~]
-```
+* Boot vargrant instance, initialize and take vagrant snapshot for rollback.
 
-* execute packer
-
-```
-make packer-docker
+```bash
+make init-vagrant
 ```
 
-### 2. Use Vagrant Case
-
-* initialize vagrant
-
-```
-make vagrant-init
-```
-
-* execute privisioning with packer
-
-```
-make packer-vagrant
+* Provison to vagrant instance with null provisioner, and rollback to initial instance state.
+    * `ROLE` : role name linked ansible-playbook file.
+```bash
+make test-local ROLE=hoge
 ```

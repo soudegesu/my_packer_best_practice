@@ -12,7 +12,7 @@ Vagrant.configure("2") do |config|
 
   # Every Vagrant development environment requires a box. You can search for
   # boxes at https://vagrantcloud.com/search.
-  config.vm.box = "mvbcoding/awslinux"
+  config.vm.box = "centos/7"
 
   # Disable automatic box update checking. If you disable this, then
   # boxes will only be checked for updates when the user runs
@@ -23,7 +23,6 @@ Vagrant.configure("2") do |config|
   # within the machine from a port on the host machine. In the example below,
   # accessing "localhost:8080" will access port 80 on the guest machine.
   # NOTE: This will enable public access to the opened port
-  # config.vm.network "forwarded_port", guest: 80, host: 8080
   config.vm.network :forwarded_port, id: "ssh", guest: 22, host: 2222
 
   # Create a forwarded port mapping which allows access to a specific port
@@ -51,10 +50,6 @@ Vagrant.configure("2") do |config|
   # Example for VirtualBox:
   #
   config.vm.provider "virtualbox" do |vb|
-    # Display the VirtualBox GUI when booting the machine
-    #vb.gui = true
-  
-    #Customize the amount of memory on the VM:
     vb.memory = "1024"
   end
   #
@@ -64,25 +59,26 @@ Vagrant.configure("2") do |config|
   # Enable provisioning with a shell script. Additional provisioners such as
   # Puppet, Chef, Ansible, Salt, and Docker are also available. Please see the
   # documentation for more information about their specific syntax and use.
+  # config.vm.provision "shell", inline: <<-SHELL
+  #   apt-get update
+  #   apt-get install -y apache2
+  # SHELL
   config.vm.provision "shell", inline: <<-SHELL
-      yum -y update
-      useradd ec2-user
-      passwd -f -u ec2-user
-
-      echo "ec2-user ALL = NOPASSWD: ALL" >> /etc/sudoers.d/cloud-init
-      echo "ec2-user ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers.d/cloud-init
-
-      # setup SSH
-      mkdir -p /home/ec2-user/.ssh; chown ec2-user /home/ec2-user/.ssh; chmod 700 /home/ec2-user/.ssh
-      cp /home/vagrant/.ssh/authorized_keys /home/ec2-user/.ssh/authorized_keys
-      chown ec2-user /home/ec2-user/.ssh/authorized_keys
-      chmod 600 /home/ec2-user/.ssh/authorized_keys
-
-      # setup sshd config
-      sed -ri 's/#PermitRootLogin yes/PermitRootLogin yes/g' /etc/ssh/sshd_config
-      sed -ri 's/UsePAM yes/#UsePAM yes/g' /etc/ssh/sshd_config
-      sed -ri 's/#UsePAM no/UsePAM no/g' /etc/ssh/sshd_config
-
-      /etc/init.d/sshd start
+    #yum -y update
+    # add user centos
+    useradd centos
+    passwd -f -u centos
+    echo "centos ALL = NOPASSWD: ALL" >> /etc/sudoers.d/centos
+    echo "centos ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers.d/centos
+    # setup SSH
+    mkdir -p /home/centos/.ssh; chown centos /home/centos/.ssh; chmod 700 /home/centos/.ssh
+    cp /home/vagrant/.ssh/authorized_keys /home/centos/.ssh/authorized_keys
+    chown centos /home/centos/.ssh/authorized_keys
+    chmod 600 /home/centos/.ssh/authorized_keys
+    # setup sshd config
+    sed -ri 's/#PermitRootLogin yes/PermitRootLogin yes/g' /etc/ssh/sshd_config
+    sed -ri 's/UsePAM yes/#UsePAM yes/g' /etc/ssh/sshd_config
+    sed -ri 's/#UsePAM no/UsePAM no/g' /etc/ssh/sshd_config
+    systemctl restart sshd
   SHELL
 end

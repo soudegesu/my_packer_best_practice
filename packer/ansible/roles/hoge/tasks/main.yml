@@ -1,4 +1,4 @@
-- name: タイムゾーンを変更します
-  copy: 
+- name: Change Timezone
+  copy:
     src: "../files/etc/sysconfig/clock"
     dest: "/etc/sysconfig/clock"
