@@ -13,3 +13,9 @@ authorized_keys
 
 # ansible files
 *.retry
+
+.python-version
+.ruby-version
+vendor/
+.bundle
+

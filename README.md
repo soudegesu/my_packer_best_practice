@@ -1,63 +1,38 @@
 # packer_test
 
-## Abstract
-This repo is example for Packer execution to amazonlinux container. 
+My best practice of project structure to provison AWS EC2 AMI with [Packer](https://www.packer.io/).
 
 ## Preconditions
-* this repo needs
-    * packer (1.0.2 or more)
-    * ansible (2.3.1.0 or more)
-* optional install
-    * you use container
-        * docker (17.06 or more)
-        * docker-compose (1.14 or more)
-    * you use VM box
-        * virtualbox (5.1.22 or more)
-        * vagrant (1.9.7 or more)
-        * sahara (0.0.17 or more)
-            * install command `vagrant plugin install sahara`
 
-## Execution
+This repository requires following runtime environment and modules.
+* Mac OSX
+* [Python](https://www.python.org/) (3.6.1 or more)
+* [Packer](https://www.packer.io/) (1.1.3 or more)
+* [Ansible](https://www.ansible.com/) (2.3.1.0 or more)
+* [Ruby](https://www.ruby-lang.org/ja/) (2.4 or more)
+    * [Bundler](https://bundler.io/)
+* [AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/cli-install-macos.html) (1.14.30 or more)
+* [Virtualbox](http://www.oracle.com/technetwork/jp/server-storage/virtualbox/overview/index.html) (5.2.12 or more)
+* [Vagrant](https://www.vagrantup.com/) (2.1.1 or more)
 
-### 1. Use Docker case
-* generate ssh key.
+## Setting up
 
-```
-ssh-keygen -t rsa -b 4096
+* Install ansible
+
+```bash
+pip install -r requirements.txt -c constraints.txt
 ```
 
-and then, we named key `./id_rsa` . 
-After that, `mv ./id_rsa.pub authorized_keys` .
+## Test ansible scripts locally
 
-* execute docker-compose
+* Boot vargrant instance, initialize and take vagrant snapshot for rollback.
 
-```
-docker-compose up --build
-```
-
-* try to enable ssh with ec2-user
-
-```
-ssh ec2-user@127.0.0.1 -i ./id_rsa
-> [ec2-user@xxxxxxxxx ~]
+```bash
+make init-vagrant
 ```
 
-* execute packer
-
-```
-make packer-docker
-```
-
-### 2. Use Vagrant Case
-
-* initialize vagrant
-
-```
-make vagrant-init
-```
-
-* execute privisioning with packer
-
-```
-make packer-vagrant
+* Provison to vagrant instance with null provisioner, and rollback to initial instance state.
+    * `ROLE` : role name linked ansible-playbook file.
+```bash
+make test-local ROLE=hoge
 ```

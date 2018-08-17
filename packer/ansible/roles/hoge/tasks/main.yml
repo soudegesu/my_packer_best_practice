@@ -1,4 +1,2 @@
-- name: タイムゾーンを変更します
-  copy: 
-    src: "../files/etc/sysconfig/clock"
-    dest: "/etc/sysconfig/clock"
+- name: set locale to Japanese
+  command: localectl set-locale LANG=ja_JP.UTF-8
