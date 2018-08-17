@@ -36,3 +36,34 @@ make init-vagrant
 ```bash
 make test-local ROLE=hoge
 ```
+
+## Create AMI
+
+* Edit your aws credential information on `~/.aws/credentials`.
+
+```bash
+[your-profile]
+aws_access_key_id = [your access_key_id]
+aws_secret_access_key = [your_secret_access_key]
+region = [your region]
+```
+
+* Edit `packer/env-aws-variables.json` that includes packer setting for AWS provisioning.
+
+```json
+{
+    "aws_region": "your-region",
+    "aws_vpc_id": "vpc-xxxxxxxxxxxxxx",
+    "aws_subnet_id": "subnet-xxxxxxxxxxx",
+    "ssh_user": "centos",
+    "use_profile": "your-profile",
+    "aws_instance_role": "your-packer-role",
+    "aws_keypair_name": "your-keypair-name"
+}
+```
+
+* Provision AWS instacne
+
+```bash
+make create-ami ROLE=hoge AWS_KEY_FILE=${absolute path to aws key file for ssh to instance}
+```

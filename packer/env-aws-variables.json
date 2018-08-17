@@ -1,0 +1,9 @@
+{
+    "aws_region": "your-region",
+    "aws_vpc_id": "vpc-xxxxxxxxxxxxxx",
+    "aws_subnet_id": "subnet-xxxxxxxxxxx",
+    "ssh_user": "centos",
+    "use_profile": "your-profile",
+    "aws_instance_role": "your-packer-role",
+    "aws_keypair_name": "your-keypair-name"
+}
