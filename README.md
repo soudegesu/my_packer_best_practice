@@ -1,4 +1,4 @@
-# packer_test
+# my_packer_best_practice
 
 My best practice of project structure to provison AWS EC2 AMI with [Packer](https://www.packer.io/).
 
