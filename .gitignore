@@ -16,3 +16,6 @@ authorized_keys
 
 .python-version
 .ruby-version
+vendor/
+.bundle
+

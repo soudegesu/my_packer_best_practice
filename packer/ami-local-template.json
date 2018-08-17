@@ -32,6 +32,10 @@
                 "--extra-vars",
                 "exercise={{user `exercise`}}"
               ]
+        },
+        {
+            "type": "shell-local",
+            "command": "cd serverspec && sh ./run_spec.sh {{user `ssh_host`}} {{user `ssh_port`}} {{user `ssh_key`}} {{user `provision_target`}} {{user `ssh_user`}}"
         }
     ]
 }
