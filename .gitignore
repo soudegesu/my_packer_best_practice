@@ -19,3 +19,5 @@ authorized_keys
 vendor/
 .bundle
 
+*.pem
+

@@ -1,0 +1,61 @@
+{
+    "variables": {
+      "aws_region": "",
+      "aws_vpc_id": "",
+      "aws_subnet_id": "",
+      "aws_instance_role": "",
+      "aws_source_ami": "",
+      "aws_keypair_name": "",
+      "aws_key_file": "",
+      "ssh_user": "",
+      "use_profile": "",
+      "provision_target": "",
+      "isotime": "{{isotime \"20060102-030405+0900\" }}"
+    },
+    "builders": [
+      {
+        "type": "amazon-ebs",
+        "profile": "{{user `use_profile`}}",
+        "communicator": "ssh",
+        "region": "{{user `aws_region`}}",
+        "source_ami_filter": {
+          "filters": {
+            "image-id": "{{user `aws_source_ami`}}"
+          }
+        },
+        "ami_description": "{{user `packer_tag_prefix`}}_{{user `isotime`}}",
+        "instance_type": "c5.large",
+        "iam_instance_profile": "{{user `aws_instance_role`}}",
+        "run_tags": {
+          "Name": "{{user `packer_tag_prefix`}}_{{user `isotime`}}"
+        },
+        "ssh_keypair_name": "{{user `aws_keypair_name`}}",
+        "ssh_private_key_file": "{{user `aws_key_file`}}",
+        "ssh_username": "{{user `ssh_user`}}",
+        "ssh_timeout": "5m",
+        "ssh_pty": true,
+        "associate_public_ip_address": true,
+        "tags" : {
+          "Name" : "{{user `instance_tag_prefix`}}_{{user `isotime` | clean_ami_name}}"
+        },
+        "vpc_id": "{{user `aws_vpc_id`}}",
+        "subnet_id": "{{user `aws_subnet_id`}}",
+        "ami_name": "{{user `instance_tag_prefix`}}_{{user `isotime` | clean_ami_name}}"
+      }
+    ],
+    "provisioners": [
+      {
+        "type": "ansible",
+        "playbook_file": "ansible/playbook-{{user `provision_target`}}.yml",
+        "ssh_host_key_file": "{{user `aws_key_file`}}",
+        "user": "{{user `ssh_user`}}",
+        "ansible_env_vars": [
+          "ANSIBLE_HOST_KEY_CHECKING=False"
+        ]
+      },
+      {
+        "type": "shell-local",
+        "command": "cd serverspec && bundle install --path vendor/bundle && sh ./run_spec.sh `aws ec2 describe-instances --region ap-northeast-1 --profile {{user `use_profile`}} --filters \"Name=tag-key,Values=Name\" \"Name=tag-value,Values={{user `packer_tag_prefix`}}_{{user `isotime`}}\" \"Name=instance-state-name,Values=running\" --output text --query \"Reservations[].Instances[].[LaunchTime,PublicIpAddress]\" | sort | tail -1 | cut -f2` 22 {{user `aws_key_file`}} {{user `provision_target`}} {{user `ssh_user`}}"
+      }
+    ]
+  }

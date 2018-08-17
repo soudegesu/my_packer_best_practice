@@ -1,0 +1,5 @@
+{
+    "packer_tag_prefix":  "Packer-Hoge-AMI",
+    "instance_tag_prefix": "HOGE_OPTIMIZED",
+    "aws_source_ami": "ami-8e8847f1"
+}
